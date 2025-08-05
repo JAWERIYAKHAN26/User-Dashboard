@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Video Background -->
+<video autoplay muted loop id="bgVideo">
+  <source src="assets/No Copyright Video, Background, Green Screen, Motion Graphics, Animated Background, Copyright Free - NO COPYRIGHT MOTION GRAPHICS (1080p, h264).mp4" type="video/mp4">
+</video>
+
+<div class="dashboard">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>Dashboard</h2>
+    <nav>
+      <a href="#" class="active">Users</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <input type="text" id="searchBar" placeholder="Search users...">
+      <button id="addUserBtn">+ Add User</button>
+    </header>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading hidden">Loading...</div>
+
+    <!-- User Table -->
+    <section class="user-table">
+      <h3>User List</h3>
+      <table id="userTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button id="prevPage">Previous</button>
+        <span>Page <span id="currentPage">1</span></span>
+        <button id="nextPage">Next</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- User Modal -->
+<div id="editModal" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="modalTitle">Add/Edit User</h3>
+    <label>Name:</label>
+    <input type="text" id="editName">
+      <label>Email:</label> <!-- ✅ Changed -->
+    <input type="email" id="editEmail"> <!-- ✅ Changed -->
+    <div class="modal-actions">
+      <button id="saveEdit">Save</button>
+      <button id="closeModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<!-- Success Modal -->
+<div id="successModal" class="modal hidden">
+  <div class="modal-content">
+    <span id="closeSuccessModal" class="close-btn">&times;</span>
+    <h3 id="successMessage">User added successfully!</h3>
+  </div>
+</div>
+<!--  -->
+
+<!-- Reusable Success Modal -->
+<div id="successModal" class="modal hidden">
+  <div class="modal-content">
+    <span id="closeSuccessModal" class="close-btn">&times;</span>
+    <h3 id="successMessage">Action completed successfully!</h3>
+  </div>
+</div>
+
+
+<!-- Deleted Success Modal -->
+<!-- Custom Confirm Modal -->
+<div id="confirmModal" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="confirmMessage">Are you sure you want to delete?</h3>
+    <div class="modal-actions">
+      <button id="confirmYes">Yes</button>
+      <button id="confirmNo">No</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script src="script.js"></script>
+</body>
+</html>
