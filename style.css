@@ -436,3 +436,18 @@ button {
   box-shadow: 0 0 20px rgba(241, 196, 15, 0.8);
   color: #fff;
 }
+/* avatar border */
+/* Avatar Style with Golden Theme */
+.user-table td img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #f1c40f; /* Golden border */
+  box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); /* Soft glow */
+  transition: 0.3s ease;
+}
+
+.user-table td img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 18px rgba(241, 196, 15, 0.8); /* Brighter glow on hover */
+}
