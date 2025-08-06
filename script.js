@@ -298,6 +298,9 @@ function showConfirmModal(message, onConfirm) {
 document.addEventListener("DOMContentLoaded", () => {
   currentPage = 1;
 
+  // Spinner show karo
+  loading.classList.remove("hidden");
+
   // LocalStorage me original users check karo
   if (!localStorage.getItem("originalUsers")) {
     localStorage.setItem("originalUsers", JSON.stringify(defaultUsers));
@@ -309,7 +312,9 @@ document.addEventListener("DOMContentLoaded", () => {
   addedUsers = [];
   usersData = [...originalUsers];
 
+  // Data render hone ke baad spinner hide
   renderCurrentPage();
+  setTimeout(() => loading.classList.add("hidden"), 500); 
 });
 
 
