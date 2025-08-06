@@ -1,4 +1,22 @@
 // =============================
+// Original Users Hardcoded
+// =============================
+const defaultUsers = [
+  { id: 1, first_name: "George", last_name: "Bluth", email: "george.bluth@reqres.in", avatar: "https://reqres.in/img/faces/1-image.jpg" },
+  { id: 2, first_name: "Janet", last_name: "Weaver", email: "janet.weaver@reqres.in", avatar: "https://reqres.in/img/faces/2-image.jpg" },
+  { id: 3, first_name: "Emma", last_name: "Wong", email: "emma.wong@reqres.in", avatar: "https://reqres.in/img/faces/3-image.jpg" },
+  { id: 4, first_name: "Eve", last_name: "Holt", email: "eve.holt@reqres.in", avatar: "https://reqres.in/img/faces/4-image.jpg" },
+  { id: 5, first_name: "Charles", last_name: "Morris", email: "charles.morris@reqres.in", avatar: "https://reqres.in/img/faces/5-image.jpg" },
+  { id: 6, first_name: "Tracey", last_name: "Ramos", email: "tracey.ramos@reqres.in", avatar: "https://reqres.in/img/faces/6-image.jpg" },
+  { id: 7, first_name: "Michael", last_name: "Lawson", email: "michael.lawson@reqres.in", avatar: "https://reqres.in/img/faces/7-image.jpg" },
+  { id: 8, first_name: "Lindsay", last_name: "Ferguson", email: "lindsay.ferguson@reqres.in", avatar: "https://reqres.in/img/faces/8-image.jpg" },
+  { id: 9, first_name: "Tobias", last_name: "Funke", email: "tobias.funke@reqres.in", avatar: "https://reqres.in/img/faces/9-image.jpg" },
+  { id: 10, first_name: "Byron", last_name: "Fields", email: "byron.fields@reqres.in", avatar: "https://reqres.in/img/faces/10-image.jpg" },
+  { id: 11, first_name: "George", last_name: "Edwards", email: "george.edwards@reqres.in", avatar: "https://reqres.in/img/faces/11-image.jpg" },
+  { id: 12, first_name: "Rachel", last_name: "Howell", email: "rachel.howell@reqres.in", avatar: "https://reqres.in/img/faces/12-image.jpg" }
+];
+
+// =============================
 // DOM Elements
 // =============================
 const userTable = document.getElementById("userTable").querySelector("tbody");
@@ -23,12 +41,11 @@ let editingUserId = null;
 
 
 
-// ✅ Global API Key
+//  Global API Key
 const API_KEY = "reqres-free-v1";
 
-// =============================
+
 // Fetch Users (Original API)
-// =============================
 async function fetchOriginalUsers() {
   loading.classList.remove("hidden");
   try {
@@ -54,9 +71,9 @@ async function fetchOriginalUsers() {
 }
 
 
-// =============================
+
 // Render Users
-// =============================
+
 function renderUsers(users) {
   userTable.innerHTML = "";
   users.forEach((user) => {
@@ -74,7 +91,7 @@ function renderUsers(users) {
     `;
   });
 
-  // ✅ Attach events dynamically
+  // Attach events dynamically
   document.querySelectorAll(".edit-btn").forEach((btn) => {
     btn.addEventListener("click", () => openEditModal(btn.dataset.id));
   });
@@ -83,9 +100,8 @@ function renderUsers(users) {
   });
 }
 
-// =============================
 // Pagination
-// =============================
+
 function renderCurrentPage() {
   const start = (currentPage - 1) * 6;
   const end = currentPage * 6;
@@ -113,9 +129,8 @@ prevPage.addEventListener("click", () => {
   }
 });
 
-// =============================
 // Add / Edit Modal
-// =============================
+
 addUserBtn.addEventListener("click", () => {
   editingUserId = null;
   editName.value = "";
@@ -140,9 +155,8 @@ closeModal.addEventListener("click", () => {
   editModal.classList.add("hidden");
 });
 
-// =============================
 // Save (Add or Update)
-// =============================
+
 saveEdit.addEventListener("click", async () => {
   const name = editName.value.trim();
   const email = editEmail.value.trim();
@@ -151,7 +165,7 @@ saveEdit.addEventListener("click", async () => {
   const [first_name, last_name] = name.split(" ");
 
   if (editingUserId) {
-    // ✅ Edit existing user (PUT)
+    //  Edit existing user (PUT)
     const user = usersData.find((u) => u.id == editingUserId);
     if (user) {
       user.first_name = first_name || "";
@@ -161,7 +175,7 @@ saveEdit.addEventListener("click", async () => {
     localStorage.setItem("addedUsers", JSON.stringify(addedUsers));
     showSuccessModal("User updated successfully!");
   } else {
-    // ✅ Add new user
+    //  Add new user
     let nextId = parseInt(localStorage.getItem("nextUserId") || "13", 10);
     const newUser = {
       id: nextId,
@@ -185,9 +199,9 @@ saveEdit.addEventListener("click", async () => {
   editModal.classList.add("hidden");
 });
 
-// =============================
+
 // Delete User
-// =============================
+
 async function deleteUser(id) {
   showConfirmModal(`Are you sure you want to delete user ID ${id}?`, () => {
     // Check if in addedUsers
@@ -207,9 +221,8 @@ async function deleteUser(id) {
 }
 
 
-// =============================
 // Search Filter
-// =============================
+
 searchBar.addEventListener("input", () => {
   const query = searchBar.value.toLowerCase();
 
@@ -237,9 +250,9 @@ searchBar.addEventListener("input", () => {
 });
 
 
-// =============================
+
 // Success Modal
-// =============================
+
 function showSuccessModal(message) {
   const modal = document.getElementById("successModal");
   const messageEl = document.getElementById("successMessage");
@@ -251,9 +264,9 @@ document.getElementById("closeSuccessModal").addEventListener("click", () => {
   document.getElementById("successModal").classList.add("hidden");
 });
 
-// =============================
+
 // Custom Confirm Modal
-// =============================
+
 function showConfirmModal(message, onConfirm) {
   const modal = document.getElementById("confirmModal");
   const msg = document.getElementById("confirmMessage");
@@ -279,27 +292,24 @@ function showConfirmModal(message, onConfirm) {
   });
 }
 
-// =============================
+
 // Initial Load
-// =============================
-// =============================
-// Initial Load
-// =============================
+
 document.addEventListener("DOMContentLoaded", () => {
   currentPage = 1;
 
-  // LocalStorage se sirf ORIGINAL users load karo
-  const savedOriginals = JSON.parse(localStorage.getItem("originalUsers")) || [];
-  
-  if (savedOriginals.length > 0) {
-    // Original untouched users load
-    originalUsers = savedOriginals;
-    // Session ke liye copy banao
-    usersData = [...originalUsers];
-    renderCurrentPage();
-  } else {
-    // Pehli baar API se fetch karo aur save karo
-    fetchOriginalUsers();
+  // LocalStorage me original users check karo
+  if (!localStorage.getItem("originalUsers")) {
+    localStorage.setItem("originalUsers", JSON.stringify(defaultUsers));
   }
+
+  originalUsers = JSON.parse(localStorage.getItem("originalUsers"));
+  
+  // Session ke liye usersData (addedUsers refresh pe vanish)
+  addedUsers = [];
+  usersData = [...originalUsers];
+
+  renderCurrentPage();
 });
+
 
