@@ -21,10 +21,7 @@ let originalUsers = [];
 let addedUsers = [];
 let editingUserId = null;
 
-// ✅ Initialize nextUserId if not present
-if (!localStorage.getItem("nextUserId")) {
-  localStorage.setItem("nextUserId", "13"); // Start new users from ID 13
-}
+
 
 // ✅ Global API Key
 const API_KEY = "reqres-free-v1";
@@ -40,12 +37,12 @@ async function fetchOriginalUsers() {
     const data1 = await page1.json();
     const data2 = await page2.json();
 
+    // Save original API users to localStorage only once
     originalUsers = [...data1.data, ...data2.data];
     localStorage.setItem("originalUsers", JSON.stringify(originalUsers));
 
-    // Combine with any saved added users
-    addedUsers = JSON.parse(localStorage.getItem("addedUsers")) || [];
-    usersData = [...originalUsers, ...addedUsers];
+    // Session users start as a fresh copy of original users
+    usersData = [...originalUsers];
 
     renderCurrentPage();
   } catch (err) {
@@ -55,6 +52,7 @@ async function fetchOriginalUsers() {
     loading.classList.add("hidden");
   }
 }
+
 
 // =============================
 // Render Users
@@ -174,10 +172,10 @@ saveEdit.addEventListener("click", async () => {
     };
 
     addedUsers.push(newUser);
-    localStorage.setItem("addedUsers", JSON.stringify(addedUsers));
+    
 
     nextId++;
-    localStorage.setItem("nextUserId", nextId.toString());
+    
 
     showSuccessModal(`New user "${name}" added successfully!`);
   }
@@ -192,28 +190,52 @@ saveEdit.addEventListener("click", async () => {
 // =============================
 async function deleteUser(id) {
   showConfirmModal(`Are you sure you want to delete user ID ${id}?`, () => {
-    addedUsers = addedUsers.filter((user) => user.id != id);
-    localStorage.setItem("addedUsers", JSON.stringify(addedUsers));
+    // Check if in addedUsers
+    if (addedUsers.some((u) => u.id == id)) {
+      addedUsers = addedUsers.filter((user) => user.id != id);
+    } else {
+      // Delete from session-only originalUsers
+      originalUsers = originalUsers.filter((user) => user.id != id);
+    }
 
+    // Refresh table
     usersData = [...originalUsers, ...addedUsers];
     renderCurrentPage();
+
     showSuccessModal(`User with ID ${id} deleted successfully!`);
   });
 }
+
 
 // =============================
 // Search Filter
 // =============================
 searchBar.addEventListener("input", () => {
   const query = searchBar.value.toLowerCase();
-  const filtered = usersData.filter(
-    (user) =>
-      (user.first_name && user.first_name.toLowerCase().includes(query)) ||
-      (user.last_name && user.last_name.toLowerCase().includes(query)) ||
-      (user.email && user.email.toLowerCase().includes(query))
-  );
+
+  // Get current page users only
+  const start = (currentPage - 1) * 6;
+  const end = currentPage * 6;
+  const currentPageUsers = usersData.slice(start, end);
+
+  // Filter based on current page
+  const filtered = currentPageUsers.filter((user) => {
+    const fullName = `${user.first_name || user.name || ""} ${user.last_name || ""}`.toLowerCase();
+    return (
+      fullName.startsWith(query) || // Match by first letters
+      (user.email && user.email.toLowerCase().startsWith(query)) // Or email first letter
+    );
+  });
+
+  // Show filtered results
   renderUsers(filtered);
+
+  // If search is empty, restore current page view
+  if (!query) {
+    renderCurrentPage();
+  }
 });
+
 
 // =============================
 // Success Modal
@@ -260,15 +282,24 @@ function showConfirmModal(message, onConfirm) {
 // =============================
 // Initial Load
 // =============================
+// =============================
+// Initial Load
+// =============================
 document.addEventListener("DOMContentLoaded", () => {
   currentPage = 1;
-  originalUsers = JSON.parse(localStorage.getItem("originalUsers")) || [];
-  addedUsers = JSON.parse(localStorage.getItem("addedUsers")) || [];
 
-  if (originalUsers.length > 0) {
-    usersData = [...originalUsers, ...addedUsers];
+  // LocalStorage se sirf ORIGINAL users load karo
+  const savedOriginals = JSON.parse(localStorage.getItem("originalUsers")) || [];
+  
+  if (savedOriginals.length > 0) {
+    // Original untouched users load
+    originalUsers = savedOriginals;
+    // Session ke liye copy banao
+    usersData = [...originalUsers];
     renderCurrentPage();
   } else {
+    // Pehli baar API se fetch karo aur save karo
     fetchOriginalUsers();
   }
 });
+
