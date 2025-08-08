@@ -472,3 +472,94 @@ button {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/* responsiveness */
+/* ========== Mobile (max-width: 480px) ========== */
+@media (max-width: 480px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .top-bar input,
+  .top-bar button {
+    width: 100%;
+  }
+
+  .user-table table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  #addUserBtn {
+    width: 100%;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* ========== Tablet (481px – 768px) ========== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .top-bar input,
+  .top-bar button {
+    width: 100%;
+  }
+
+  .user-table table {
+    font-size: 14px;
+  }
+
+  .modal-content {
+    width: 80%;
+  }
+}
+
+/* ========== Small Desktop (769px – 1024px) ========== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .top-bar input {
+    width: 150px;
+  }
+
+  .top-bar button {
+    padding: 6px 10px;
+  }
+
+  .modal-content {
+    width: 60%;
+  }
+}
