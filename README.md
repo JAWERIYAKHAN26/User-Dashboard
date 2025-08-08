@@ -44,6 +44,10 @@ This project demonstrates **CRUD operations** (Create, Read, Update, Delete) wit
 ### Add / Edit User Modal
 ![User Modal Screenshot](assets/ud2.png)
 
+### Mobile View
+![Mobile Screenshot](assets/Mobile-View.png)
+
+
 ---
 
 ## 🛠️ Technologies Used
